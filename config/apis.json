@@ -1,0 +1,13 @@
+{
+  "port":8081,
+  "mode":"local",
+  "api":[
+    {
+      "path":"/user",
+      "handler":"vietung.it.dev.apis.handlers.UserHandler",
+      "isPublic":true,
+      "roles":[],
+      "method":"GET"
+    }
+  ]
+}
