@@ -1,6 +1,8 @@
 package pn.doan.core.config;
 
 import io.netty.util.AsciiString;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerRequest;
@@ -8,9 +10,13 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pn.doan.apis.handles.BaseApiHandler;
+import pn.doan.apis.response.BaseResponse;
+import pn.doan.apis.response.SimpleResponse;
+import pn.doan.core.model.ErrorCode;
 
-public class VertXHttpConfig {
-    static Logger logger = LoggerFactory.getLogger(VertxHttpConfigServer.class.getName());
+public class VertXHttpConfig extends AbstractVerticle implements Handler<HttpServerRequest> {
+    static Logger logger = LoggerFactory.getLogger(VertXHttpConfig.class.getName());
     private HttpServer server;
     private static final CharSequence RESPONSE_TYPE_JSON = new AsciiString("application/json");
 
@@ -18,7 +24,7 @@ public class VertXHttpConfig {
     public void start() {
         int port = APIConfig.PORT;
         server = vertx.createHttpServer();
-        server.requestHandler(VertxHttpConfigServer.this).listen(port);
+        server.requestHandler(VertXHttpConfig.this).listen(port);
         logger.debug("start on port {}", port);
     }
 
@@ -57,9 +63,9 @@ public class VertXHttpConfig {
         if (handler.isPublic()) {
             response = handler.handle(request);
         } else {
-            String phone = request.getParam("ph");
-            String pass = request.getParam("p");
-            response = handlePrivateRequest(handler, request, phone,pass);
+            String email = request.getParam("email");
+            String pass = request.getParam("pass");
+            response = handlePrivateRequest(handler, request, email,pass);
         }
         if (response == null) {
             logger.error("Response NULL: {}", request.path());
@@ -80,9 +86,9 @@ public class VertXHttpConfig {
                 if (handler.isPublic()) {
                     response = handler.handle(request);
                 } else {
-                    String phone = request.getFormAttribute("ph");
-                    String pass = request.getFormAttribute("p");
-                    response = handlePrivateRequest(handler, request, phone, pass);
+                    String email = request.getFormAttribute("email");
+                    String pass = request.getFormAttribute("pass");
+                    response = handlePrivateRequest(handler, request, email, pass);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

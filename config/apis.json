@@ -3,11 +3,22 @@
   "mode":"local",
   "api":[
     {
-      "path":"/user",
-      "handler":"vietung.it.dev.apis.handlers.UserHandler",
+      "path":"/nguoidung",
+      "handler":"pn.doan.apis.handles.NguoiDungHandler",
       "isPublic":true,
-      "roles":[],
       "method":"GET"
+    },
+    {
+      "path":"/tinhtrangsuckhoa",
+      "handler":"pn.doan.apis.handles.TinhTrangSucKhoeHandler",
+      "isPublic":false,
+      "method":"GET"
+    },
+    {
+      "path":"/thongtinkcb",
+      "handler":"pn.doan.apis.handles.ThongTinKCBHandler",
+      "isPublic":false,
+      "method":"POST"
     }
   ]
 }
