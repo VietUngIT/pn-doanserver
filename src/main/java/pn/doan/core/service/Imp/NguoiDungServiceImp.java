@@ -127,7 +127,7 @@ public class NguoiDungServiceImp implements NguoiDungService {
             st.setString(6, diachi);
             st.registerOutParameter(7, INTEGER);
             st.executeUpdate();
-            int checkUsername = st.getInt(4);
+            int checkUsername = st.getInt(7);
             if (checkUsername == 2) {
                 response.setError(ErrorCode.USER_NOT_EXIST);
                 response.setMsg("Tài khoản người dùng không tồn tại.");
